@@ -7,7 +7,7 @@
  * 			- If the number is odd, triple it and add one [if n%2==1: (3n+1)/2]
  *			
  *		To find the stopping time:
- *			- Number of steps to reach 1
+ *			- Number of steps to reach a value 1
  * 			- EX: Starting number of 10 has a stopping time of 7 steps
  *
  * 		To prove it to be false: 
@@ -18,7 +18,7 @@
  *
  * To compile: navigate to src directory and type "make"
  *
- * For usage: navigate to src directory and type ./collatz
+ * For usage: after compiling, navigate to src directory and type ./collatz
  *
  */
 
@@ -37,12 +37,14 @@
 #define DEBUG true
 
 //Global Declarations
-int startNum = -1;
+int startNum;
+int curNum;
 int steps = 0;
 
 //Function Declarations
 int strToInt(char* string);
-
+int even(int num);
+int odd(int num);
 
 //Main Function
 int main(int argc, char* argv[])
@@ -59,14 +61,53 @@ int main(int argc, char* argv[])
   printf("Starting number is: %d\n", startNum);
 
   if(startNum < 0){
-    fprintf(stderr, "\nError: Expected a positive integer\n")
+    fprintf(stderr, "\nError: Expected a positive integer\n");
     return 1;
   }
+
+  //Successfully reached this point with positive integer 
+  curNum = startNum;
+
+  while(curNum != 1)
+  {
+    if(curNum % 2 == 0)
+      curNum = even(curNum);
+    else //if(curNum % 2 == 1)
+      curNum = odd(curNum);
+
+    steps++;
+
+    printf("Step number: %5d Value: %d\n", steps, curNum);
+  }
+
+  printf("Finished in %d steps\n", steps);
 
   return 0;
 }
 
-/* Helper function: Converts a given string into an integer given that the provided string is actually an integer
+/* Helper function: completes the calculation for an even number(n/2)
+ * Param: integer
+ * Returns: integer after this step
+ */
+int even(int num)
+{
+  return num / 2;
+}
+
+/* Helper function: completes the calculation for an odd number((3n+1)/2)
+ * Param: integer
+ * Returns: integer after this step
+ */
+int odd(int num)
+{
+  int temp = num * 3;
+  temp++;
+  steps++;
+  printf("Step number: %5d Value: %d\n", steps, temp);
+  return even(temp);
+}
+
+/* Helper function: Converts a given string into an integer given that the provided string is a valid integer between 0 and INT_MAX
  * Param: char* string to be converted
  * Returns: -1 upon failure, or the given string
  */
