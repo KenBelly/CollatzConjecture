@@ -18,7 +18,7 @@
  *
  * To compile: navigate to src directory and type "make"
  *
- * For usage: after compiling, navigate to src directory and type ./collatz
+ * For usage: after compiling, navigate to src directory and type ./collatz [starting number]
  *
  */
 
@@ -86,8 +86,8 @@ int main(int argc, char* argv[])
 }
 
 /* Helper function: completes the calculation for an even number(n/2)
- * Param: integer
- * Returns: integer after this step
+ * Param: an even integer
+ * Returns: next step's integer value
  */
 int even(int num)
 {
@@ -95,8 +95,8 @@ int even(int num)
 }
 
 /* Helper function: completes the calculation for an odd number((3n+1)/2)
- * Param: integer
- * Returns: integer after this step
+ * Param: an odd integer
+ * Returns: next step's integer value
  */
 int odd(int num)
 {
@@ -109,7 +109,7 @@ int odd(int num)
 
 /* Helper function: Converts a given string into an integer given that the provided string is a valid integer between 0 and INT_MAX
  * Param: char* string to be converted
- * Returns: -1 upon failure, or the given string
+ * Returns: -1 upon failure, or the given string converted to type int 
  */
 int strToInt(char* string)
 {
