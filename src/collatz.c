@@ -37,14 +37,14 @@
 #define DEBUG true
 
 //Global Declarations
-int startNum;
-int curNum;
+long startNum;
+long curNum;
 int steps = 0;
 
 //Function Declarations
-int strToInt(char* string);
-int even(int num);
-int odd(int num);
+long strToInt(char* string);
+long even(long num);
+long odd(long num);
 
 //Main Function
 int main(int argc, char* argv[])
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 
   startNum = strToInt(argv[1]);
 
-  printf("Starting number is: %d\n", startNum);
+  printf("Starting number is: %ld\n", startNum);
 
   if(startNum < 0){
     fprintf(stderr, "\nError: Expected a positive integer\n");
@@ -77,7 +77,13 @@ int main(int argc, char* argv[])
 
     steps++;
 
-    printf("Step number: %5d Value: %d\n", steps, curNum);
+    if(curNum < 0)
+    {
+      fprintf(stderr, "\nError: overflow occurred inaccurate results\n");
+      return 1;
+    }
+
+    printf("Step number: %5d Value: %ld\n", steps, curNum);
   }
 
   printf("Finished in %d steps\n", steps);
@@ -89,7 +95,7 @@ int main(int argc, char* argv[])
  * Param: an even integer
  * Returns: next step's integer value
  */
-int even(int num)
+long even(long num)
 {
   return num / 2;
 }
@@ -98,12 +104,12 @@ int even(int num)
  * Param: an odd integer
  * Returns: next step's integer value
  */
-int odd(int num)
+long odd(long num)
 {
-  int temp = num * 3;
+  long temp = num * 3;
   temp++;
   steps++;
-  printf("Step number: %5d Value: %d\n", steps, temp);
+  printf("Step number: %5d Value: %ld\n", steps, temp);
   return even(temp);
 }
 
@@ -111,13 +117,13 @@ int odd(int num)
  * Param: char* string to be converted
  * Returns: -1 upon failure, or the given string converted to type int 
  */
-int strToInt(char* string)
+long strToInt(char* string)
 {
     errno = 0;
     char* p;
     long arg = strtol(string, &p, 10); //strtol(const char *restrict str, char **restrict endptr, int base);
-    if(*p != '\0' || errno != 0 || arg < INT_MIN || arg > INT_MAX)
+    if(*p != '\0' || errno != 0)
         return -1;
 
-    return (int)arg;
+    return arg;
 }
